@@ -2,6 +2,7 @@ package com.doit.isee.controller;
 
 import com.doit.isee.model.Client;
 import com.doit.isee.model.Program;
+import com.doit.isee.service.ClientService;
 import com.doit.isee.service.HealthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,7 @@ import java.util.Optional;
 public class HealthController {
     @Autowired
     private HealthService healthService;
+    private ClientService clientService;
 
     @PostMapping("/clients")
     public Client registerClient(@RequestBody Client client) {
@@ -40,5 +42,11 @@ public class HealthController {
     @GetMapping("/clients/{clientId}")
     public Optional<Client> getClientProfile(@PathVariable Long clientId) {
         return healthService.getClientProfile(clientId);
+    }
+    @GetMapping("/search")
+    public List<Client> searchClients(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String email) {
+        return clientService.searchClients(name, email);
     }
 }
